@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 75dcd0c1be2d6424dacbec1510cfb49c
   - enabled: 1
+    path: Assets/Scenes/Color.unity
+    guid: ae2754ad83344c44b91e8d2b7c0c905c
+  - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

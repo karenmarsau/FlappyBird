@@ -16,29 +16,29 @@ public class FlappyMove : MonoBehaviour{
     Rigidbody2D rb2d;
     SpriteRenderer spriteRenderer;
     Animator animation;
-    Vector3 snapPosition;
+    Vector2 initialPosition;
 
     void Start(){
         rb2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();  
         animation = GetComponent<Animator>();
-        snapPosition = this.transform.position;
-
-        Transform posHeart = posFirt;
-
         flapSource = GetComponent<AudioSource>();
 
+        Transform posHeart = posFirt;
+        
+        initialPosition = transform.position;
+
+        
         for (int i = 0; i < quantityOfHearts; i++){
             Image NewHeart = Instantiate(Heart, posHeart.position, Quaternion.identity);
             NewHeart.transform.parent = MyCanvas.transform;
             posHeart.position = new Vector2(posHeart.position.x + OffSet, posHeart.position.y);
         }
-
-
     }
 
     void Update(){
         Vector2 pos = transform.position;
+
         if(Input.GetKey("d")  || Input.GetKey("right")){
             pos.x += runSpeed * Time.deltaTime;
             spriteRenderer.flipX = false;
@@ -58,18 +58,13 @@ public class FlappyMove : MonoBehaviour{
             animation.SetBool("Fly", false);
         }
         transform.position = pos; 
-
     }
 
-    IEnumerator waiter(){
-        yield return new WaitForSeconds(4);
-    }  
-
-    private void OnTriggerEnter2D(Collider2D collision){
-
-        if(collision.CompareTag("Die")){
-            StartCoroutine(waiter());
-            this.transform.position = snapPosition;
+    private void OnCollisionEnter2D(Collision2D collision){
+        if(collision.gameObject.tag == "Die"){
+            Destroy(MyCanvas.transform.GetChild(quantityOfHearts+1).gameObject);
+            quantityOfHearts-= 1;  
+            gameObject.transform.position = initialPosition;
         }
     }
 }
